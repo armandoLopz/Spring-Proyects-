@@ -29,7 +29,7 @@ public class ProductRepository {
 
     public Product findById(Long id){
 
-        return data.stream().filter(p -> p.getId().equals(id)).findFirst().orElseThrow();
+        return data.stream().filter(product -> product.getId().equals(id)).findFirst().orElseThrow();
     }
 
 

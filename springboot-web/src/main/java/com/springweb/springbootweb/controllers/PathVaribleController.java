@@ -39,7 +39,9 @@ public class PathVaribleController {
     
     @PostMapping("/createUser")
     public User create(@RequestBody User user) {
-    
+
+        user.setLastName("lopez".toUpperCase());
+
         return user;
     }
     
