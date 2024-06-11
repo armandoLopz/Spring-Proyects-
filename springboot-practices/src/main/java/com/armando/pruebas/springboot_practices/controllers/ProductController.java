@@ -1,9 +1,9 @@
 package com.armando.pruebas.springboot_practices.controllers;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
-
 import com.armando.pruebas.springboot_practices.models.Product;
 import com.armando.pruebas.springboot_practices.services.ProductServices;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +23,18 @@ public class ProductController {
         this.productServices = productServices;
     }
 
-    @GetMapping("showProducts")
+    @GetMapping("")
+    public LinkedHashMap<String, String> index() {
+
+        LinkedHashMap<String, String> message = new LinkedHashMap<>();
+        message.put("Message", "Its working");
+        message.put("Point aplicattion", "ROOT");
+        
+        return message;
+    }
+
+
+    @GetMapping("/showProducts")
     public List<Product> allProducts() {
         return productServices.AllProducts();
     }

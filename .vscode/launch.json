@@ -2,11 +2,34 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ArmandoApplication",
+            "request": "launch",
+            "mainClass": "com.pruebas.armando.ArmandoApplication"
+        },
+        {
+            "type": "java",
+            "name": "DemoApplication",
+            "request": "launch",
+            "mainClass": "com.example.demo.DemoApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-SpringbootWebApplication<springboot-web>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "com.springweb.springbootweb.SpringbootWebApplication",
             "projectName": "springboot-web",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringbootPracticesApplication<springboot-practices>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.armando.pruebas.springboot_practices.SpringbootPracticesApplication",
+            "projectName": "springboot-practices",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
