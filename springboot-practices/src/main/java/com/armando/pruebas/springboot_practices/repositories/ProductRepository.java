@@ -3,6 +3,7 @@ package com.armando.pruebas.springboot_practices.repositories;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.armando.pruebas.springboot_practices.models.Product;
@@ -11,6 +12,7 @@ import com.armando.pruebas.springboot_practices.models.Product;
 public class ProductRepository {
 
     @Autowired
+    @Qualifier("productsList")
     private List<Product> inventoryListProduct; 
 
     /*public void instanceList(){
