@@ -49,7 +49,5 @@ public class ErrorDto {
     public void setStatus(int status) {
         this.status = status;
     }
-
-    
-    
+ 
 }

@@ -1,5 +1,7 @@
 package com.armando.pruebas.springboot_practices.models;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +11,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class User {
+public class ShoppingCart {
     
-    private String name, lastname, correo;
-    private int age, id;
+    private List<Product> shoppingCartList;
+    private User user;
+    private int totalAmount;
 
 }

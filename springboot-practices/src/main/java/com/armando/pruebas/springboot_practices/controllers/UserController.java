@@ -3,6 +3,7 @@ package com.armando.pruebas.springboot_practices.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.armando.pruebas.springboot_practices.models.User;
+import com.armando.pruebas.springboot_practices.models.UserDto;
 import com.armando.pruebas.springboot_practices.services.UserServices;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class UserController {
     private UserServices userServices;
 
     @PostMapping("/createUser")
-    public User createUser(@RequestBody User user) {
+    public UserDto createUser(@RequestBody User user) {
         
         return userServices.addUser(user);
     }
