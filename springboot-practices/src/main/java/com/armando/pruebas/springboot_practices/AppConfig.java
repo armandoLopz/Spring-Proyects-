@@ -1,16 +1,20 @@
 package com.armando.pruebas.springboot_practices;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.armando.pruebas.springboot_practices.interfaces.CreateShoppingCartForDBUsers;
 import com.armando.pruebas.springboot_practices.models.Product;
+import com.armando.pruebas.springboot_practices.models.ShoppingCart;
 import com.armando.pruebas.springboot_practices.models.User;
 
 @Configuration
-public class AppConfig {
+public class AppConfig implements CreateShoppingCartForDBUsers {
     
     @Bean(name = "productsList")
     List <Product> products(){
@@ -43,6 +47,27 @@ public class AppConfig {
 
         return usersList;
 
+    }
+
+    @Bean
+    public Map<User, ShoppingCart> createShoppingCartForUserDB() {
+
+        Map<User, ShoppingCart> usersCarts = new HashMap<>(); 
+
+        for (User user : users()) {
+            
+            ShoppingCart shoppingCart = new ShoppingCart();
+            List<Product> productsList = new ArrayList<>();
+            
+            //shoppingCart.setUser(user);
+            shoppingCart.setShoppingCartList(productsList);
+            shoppingCart.setTotalAmount(0);
+
+            usersCarts.put(user, shoppingCart);
+        }
+        
+        return usersCarts;
+        
     }
     
 }

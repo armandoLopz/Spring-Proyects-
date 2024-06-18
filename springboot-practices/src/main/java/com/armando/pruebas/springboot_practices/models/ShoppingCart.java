@@ -14,7 +14,7 @@ import lombok.Setter;
 public class ShoppingCart {
     
     private List<Product> shoppingCartList;
-    private User user;
+    //private User user;
     private int totalAmount;
 
 }
