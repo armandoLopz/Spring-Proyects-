@@ -16,15 +16,15 @@ public class date {
     @Column(name = "update_at")
     private LocalDateTime updateAt;
 
+    
+    public date() {
+    }
+    
     @PrePersist
     public void preCreate(){
         
         this.createAt = LocalDateTime.now();
     }
-    
-    public date() {
-    }
-
 
     @PreUpdate
     public void PreUpdate(){

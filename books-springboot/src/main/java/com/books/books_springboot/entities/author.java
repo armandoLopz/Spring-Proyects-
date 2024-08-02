@@ -3,11 +3,12 @@ package com.books.books_springboot.entities;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -17,10 +18,14 @@ import jakarta.persistence.Table;
 public class author {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Basic
     private String name;
+
+    @Basic
+    private String lastname;
     
     @Column(name = "born_date")
     private Date bornDate;
@@ -28,25 +33,29 @@ public class author {
     @Column(name = "death_date")
     private Date deathDate;
 
-    @ManyToMany
-    @Nullable
-    @Column(name = "books_written")
-    private List<book> booksList;
+    @ManyToMany(mappedBy = "authors")
+    //@JoinColumn(name = "books_id")
+    private List<book> books;
+
+    @Column(name = "image_url")
+    private String image;
 
     @Embedded
-    private date dateTime;
+    private date dateTime = new date();
 
     public author() {
     }
 
-    public author(Long id, String name, Date bornDate, Date deathDate) {
-        this.id = id;
+    public author(String name,String lastname, Date bornDate, Date deathDate, List<book> books, String image) {
+
         this.name = name;
+        this.lastname = lastname;
         this.bornDate = bornDate;
         this.deathDate = deathDate;
+        this.books = books;
+        this.image = image;
     }
 
-    
     @Override
     public String toString() {
         return "author [id=" + id + ", name=" + name + ", bornDate=" + bornDate + ", deathDate=" + deathDate
@@ -92,7 +101,5 @@ public class author {
     public void setDateTime(date dateTime) {
         this.dateTime = dateTime;
     }
-
-    
     
 }

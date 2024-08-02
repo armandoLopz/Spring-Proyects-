@@ -6,7 +6,11 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
@@ -15,40 +19,50 @@ import jakarta.persistence.Table;
 public class book {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String name;
 
     @ManyToMany
+    @JoinTable(
+
+        name = "books_authors",
+        joinColumns = @JoinColumn(name = "books_id"),
+        inverseJoinColumns = @JoinColumn(name = "authors_id")
+    )
     private List<author> authors;
 
-    private List<String> languages;
+    @ManyToMany
+    private List<language> languages;
 
-    private List<String> genders;
+    @ManyToMany
+    private List<genre> genres;
 
-    @Column(name = "dowloand_count")
-    private String dowloandCount;
+    private String downloadCount;
 
     private boolean copyrigth;
 
-    private byte[] image;
+    @Column(name = "image_url")
+    private String image;
 
     @Embedded
-    private date dateTime;
+    private date dateTime = new date();
 
     public book() {
     }
 
-    public book(Long id, String name, List<author> authors, List<String> languages, List<String> genders,
-            String dowloandCount,boolean copyrigth, byte[] image) {
+    public book(Long id, String name, List<author> authors, List<language> languages, List<genre> genres,
+            String downloadCount, boolean copyrigth, String image, date dateTime) {
         this.id = id;
         this.name = name;
         this.authors = authors;
         this.languages = languages;
-        this.genders = genders;
-        this.dowloandCount = dowloandCount;
+        this.genres = genres;
+        this.downloadCount = downloadCount;
         this.copyrigth = copyrigth;
         this.image = image;
+        this.dateTime = dateTime;
     }
 
     public Long getId() {
@@ -75,35 +89,43 @@ public class book {
         this.authors = authors;
     }
 
-    public List<String> getLanguages() {
+    public List<language> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<String> languages) {
+    public void setLanguages(List<language> languages) {
         this.languages = languages;
     }
 
-    public List<String> getGenders() {
-        return genders;
+    public List<genre> getGenres() {
+        return genres;
     }
 
-    public void setGenders(List<String> genders) {
-        this.genders = genders;
+    public void setGenres(List<genre> genres) {
+        this.genres = genres;
     }
 
-    public String getDowloandCount() {
-        return dowloandCount;
+    public String getdownloadCount() {
+        return downloadCount;
     }
 
-    public void setDowloandCount(String dowloandCount) {
-        this.dowloandCount = dowloandCount;
+    public void setdownloadCount(String downloadCount) {
+        this.downloadCount = downloadCount;
     }
 
-    public byte[] getImage() {
+    public boolean isCopyrigth() {
+        return copyrigth;
+    }
+
+    public void setCopyrigth(boolean copyrigth) {
+        this.copyrigth = copyrigth;
+    }
+
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -115,12 +137,5 @@ public class book {
         this.dateTime = dateTime;
     }
 
-    public boolean isCopyrigth() {
-        return copyrigth;
-    }
-
-    public void setCopyrigth(boolean copyrigth) {
-        this.copyrigth = copyrigth;
-    }
     
 }
