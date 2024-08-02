@@ -1,6 +1,5 @@
 package com.books.books_springboot.entities;
 
-
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
