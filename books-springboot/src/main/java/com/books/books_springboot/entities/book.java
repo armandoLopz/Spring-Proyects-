@@ -3,6 +3,7 @@ package com.books.books_springboot.entities;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -13,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "books")
@@ -24,19 +26,20 @@ public class book {
     
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
 
         name = "books_authors",
         joinColumns = @JoinColumn(name = "books_id"),
-        inverseJoinColumns = @JoinColumn(name = "authors_id")
+        inverseJoinColumns = @JoinColumn(name = "authors_id"),
+        uniqueConstraints = @UniqueConstraint(columnNames = {"books_id", "authors_id"})
     )
     private List<author> authors;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<language> languages;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<genre> genres;
 
     private String downloadCount;
