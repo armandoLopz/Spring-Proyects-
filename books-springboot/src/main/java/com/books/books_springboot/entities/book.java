@@ -139,5 +139,13 @@ public class book {
         this.dateTime = dateTime;
     }
 
+    public String getDownloadCount() {
+        return downloadCount;
+    }
+
+    public void setDownloadCount(String downloadCount) {
+        this.downloadCount = downloadCount;
+    }
+
     
 }

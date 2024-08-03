@@ -1,9 +1,8 @@
 package com.books.books_springboot.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.data.repository.CrudRepository;
 import com.books.books_springboot.entities.language;
 
-public interface languageRepositories extends JpaRepository<language, Long> {
+public interface languageRepositories extends CrudRepository<language, Long> {
 
 }

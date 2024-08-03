@@ -1,9 +1,9 @@
 package com.books.books_springboot.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import com.books.books_springboot.entities.genre;
 
-public interface genresRepositories extends JpaRepository<genre, Long> {
+public interface genresRepositories extends CrudRepository<genre, Long> {
 
 }
