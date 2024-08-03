@@ -1,14 +1,19 @@
 package com.books.books_springboot.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.books.books_springboot.entities.book;
+import com.books.books_springboot.models.dto.bookDto;
 import com.books.books_springboot.repositories.BooksRepositories;
 
 @Service
@@ -21,9 +26,18 @@ public class bookServiceImpl implements bookService{
         this.booksRepositories = booksRepositories;
     }
 
+    //METHOD USED FOR RESPONSE IN INTERNAL SERVER ERRORS
+    private static ResponseEntity<Object> responseToServerError(Exception e){
+
+        return ResponseEntity.internalServerError().body(new HashMap<>().
+        put("Message", "Error: " + e));
+
+    }
+
+
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<List<book>> getAllBooks() {
+    public ResponseEntity<?> getAllBooks() { 
         
         try {
             
@@ -31,20 +45,34 @@ public class bookServiceImpl implements bookService{
             
             if (allBooks.isEmpty()) {
                 
-                return ResponseEntity.notFound().build();
-            }
+                Map<String, String> responseBody = new HashMap<>();
+                responseBody.put("message", "The DB don't have registers");
+                
+                return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+            
+            }else{
 
-            return ResponseEntity.ok(allBooks);
+                ModelMapper modelMapper = new ModelMapper();
+                List<bookDto> bookDtos = new ArrayList<>();
+
+                for (book book : allBooks) {
+                    
+                    bookDto bDto = modelMapper.map(book, bookDto.class);
+                    bookDtos.add(bDto);
+                }
+
+                return ResponseEntity.ok(bookDtos);
+            }
 
         } catch (Exception e) {
             
-            return ResponseEntity.internalServerError().build();
+            return responseToServerError(e);
         }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<?> finById(Long id) {
+    public ResponseEntity<?> getBookById(Long id) {
 
         try {
             
@@ -54,36 +82,61 @@ public class bookServiceImpl implements bookService{
                 return ResponseEntity.ok(bookDB.get());
 
             } else {
-                return ResponseEntity.status(404).body(new HashMap<>().
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new HashMap<>().
                 put("Message", "ID: " + id + " Not found in DB")); 
             }
 
         } catch (Exception e) {
             
-            return ResponseEntity.internalServerError().build(); 
+            return responseToServerError(e);
         }
     }
 
     @Override
     @Transactional
-    public ResponseEntity<?> createBook(book book) {
+    public ResponseEntity<?> createBook(bookDto bookDto) {
 
         try {
             
-            return ResponseEntity.status(201).body(book);
+            ModelMapper modelMapper = new ModelMapper();
+            book book = modelMapper.map(bookDto, book.class);
+
+            // VERFIFICAR QUE DATOS OBTIENE EL BOOK DE LOS ATRIBUTOS EMBEBIDOS
+            booksRepositories.save(book);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(bookDto);
             
         } catch (Exception e) {
           
-            return ResponseEntity.internalServerError().body(new HashMap<>().
-            put("Message", "Error: " + e));
+            return responseToServerError(e);
         }
     }
 
     @Override
     @Transactional
-    public ResponseEntity<?> updateBook(book book) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateBook'");
+    public ResponseEntity<?> updateBook(bookDto book) {
+        
+        try {
+            
+            Optional<book> bOptional = booksRepositories.findById(book.getId());
+
+            if (bOptional.isPresent()) {
+                
+                ModelMapper modelMapper = new ModelMapper();
+                bookDto bDto = modelMapper.map(bOptional, bookDto.class);
+
+                return ResponseEntity.status(201).body(bDto);
+            
+            }else{
+
+                return ResponseEntity.status(404).body(new HashMap<>().
+                put("Message", "Book is Not found in DB")); 
+            }
+            
+        } catch (Exception e) {
+          
+            return responseToServerError(e);
+        }
     }
 
 }
