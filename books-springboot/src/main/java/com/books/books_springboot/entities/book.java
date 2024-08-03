@@ -41,7 +41,7 @@ public class book {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<genre> genres;
 
-    private String downloadCount;
+    private Long downloadCount;
 
     private boolean copyrigth;
 
@@ -55,7 +55,7 @@ public class book {
     }
 
     public book(Long id, String name, List<author> authors, List<language> languages, List<genre> genres,
-            String downloadCount, boolean copyrigth, String image, date dateTime) {
+            Long downloadCount, boolean copyrigth, String image, date dateTime) {
         this.id = id;
         this.name = name;
         this.authors = authors;
@@ -107,14 +107,6 @@ public class book {
         this.genres = genres;
     }
 
-    public String getdownloadCount() {
-        return downloadCount;
-    }
-
-    public void setdownloadCount(String downloadCount) {
-        this.downloadCount = downloadCount;
-    }
-
     public boolean isCopyrigth() {
         return copyrigth;
     }
@@ -139,11 +131,11 @@ public class book {
         this.dateTime = dateTime;
     }
 
-    public String getDownloadCount() {
+    public Long getDownloadCount() {
         return downloadCount;
     }
 
-    public void setDownloadCount(String downloadCount) {
+    public void setDownloadCount(Long downloadCount) {
         this.downloadCount = downloadCount;
     }
 

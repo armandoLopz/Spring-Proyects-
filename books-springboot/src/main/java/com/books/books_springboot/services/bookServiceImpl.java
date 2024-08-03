@@ -1,10 +1,12 @@
 package com.books.books_springboot.services;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.books.books_springboot.entities.book;
 import com.books.books_springboot.repositories.BooksRepositories;
@@ -20,6 +22,7 @@ public class bookServiceImpl implements bookService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<List<book>> getAllBooks() {
         
         try {
@@ -40,7 +43,8 @@ public class bookServiceImpl implements bookService{
     }
 
     @Override
-    public ResponseEntity<book> finById(Long id) {
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> finById(Long id) {
 
         try {
             
@@ -48,8 +52,10 @@ public class bookServiceImpl implements bookService{
 
             if (bookDB.isPresent()) {
                 return ResponseEntity.ok(bookDB.get());
+
             } else {
-                return ResponseEntity.notFound().build(); 
+                return ResponseEntity.status(404).body(new HashMap<>().
+                put("Message", "ID: " + id + " Not found in DB")); 
             }
 
         } catch (Exception e) {
@@ -59,19 +65,25 @@ public class bookServiceImpl implements bookService{
     }
 
     @Override
-    public ResponseEntity<book> createBook(book book) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createBook'");
+    @Transactional
+    public ResponseEntity<?> createBook(book book) {
+
+        try {
+            
+            return ResponseEntity.status(201).body(book);
+            
+        } catch (Exception e) {
+          
+            return ResponseEntity.internalServerError().body(new HashMap<>().
+            put("Message", "Error: " + e));
+        }
     }
 
     @Override
-    public ResponseEntity<book> updateBook(book book) {
+    @Transactional
+    public ResponseEntity<?> updateBook(book book) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateBook'");
     }
-
-
-
-
 
 }

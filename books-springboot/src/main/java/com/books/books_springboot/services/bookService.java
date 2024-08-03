@@ -10,9 +10,9 @@ public interface bookService {
 
     ResponseEntity<List<book>> getAllBooks();
 
-    ResponseEntity<book> finById(Long id);
+    ResponseEntity<?> finById(Long id);
     
-    ResponseEntity<book> createBook(book book);
+    ResponseEntity<?> createBook(book book);
     
-    ResponseEntity<book> updateBook(book book);
+    ResponseEntity<?> updateBook(book book);
 }
