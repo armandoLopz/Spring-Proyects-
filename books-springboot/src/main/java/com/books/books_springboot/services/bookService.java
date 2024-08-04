@@ -2,7 +2,7 @@ package com.books.books_springboot.services;
 
 import org.springframework.http.ResponseEntity;
 
-import com.books.books_springboot.models.dto.bookDto;
+import com.books.books_springboot.entities.book;
 
 public interface bookService {
 
@@ -10,7 +10,9 @@ public interface bookService {
 
     ResponseEntity<?> getBookById(Long id);
     
-    ResponseEntity<?> createBook(bookDto book);
+    ResponseEntity<?> createBook(book book);
     
-    ResponseEntity<?> updateBook(bookDto book);
+    ResponseEntity<?> updateBook(book book);
+
+    ResponseEntity<?> deleteBook(Long id);
 }

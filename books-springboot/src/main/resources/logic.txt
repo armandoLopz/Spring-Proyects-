@@ -1,0 +1,5 @@
+TO DO:
+
+Add others atributes in bookDto
+Document API with Swagger (Search how its it)
+See if the construct for books is correct and check how is if me pass parameters in the construct

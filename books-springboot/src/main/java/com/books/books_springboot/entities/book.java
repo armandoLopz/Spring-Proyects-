@@ -1,5 +1,7 @@
 package com.books.books_springboot.entities;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -23,7 +25,7 @@ public class book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String name;
+    private String title;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -52,19 +54,26 @@ public class book {
     private date dateTime = new date();
 
     public book() {
+
+        this.authors = new ArrayList<author>();
+        this.languages = new ArrayList<language>();
+        this.genres = new ArrayList<genre>();
     }
 
-    public book(Long id, String name, List<author> authors, List<language> languages, List<genre> genres,
-            Long downloadCount, boolean copyrigth, String image, date dateTime) {
-        this.id = id;
-        this.name = name;
-        this.authors = authors;
-        this.languages = languages;
-        this.genres = genres;
+    public book(String title, Long downloadCount, boolean copyrigth, String image) {
+
+        this();                
+        this.title = title;
         this.downloadCount = downloadCount;
         this.copyrigth = copyrigth;
         this.image = image;
-        this.dateTime = dateTime;
+    }
+    
+    @Override
+    public String toString() {
+        return "book [id=" + id + ", title=" + title + ", authors=" + authors + ", languages=" + languages + ", genres="
+                + genres + ", downloadCount=" + downloadCount + ", copyrigth=" + copyrigth + ", image=" + image
+                + ", dateTime=" + dateTime + "]";
     }
 
     public Long getId() {
@@ -75,12 +84,12 @@ public class book {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public List<author> getAuthors() {
@@ -127,6 +136,14 @@ public class book {
         return dateTime;
     }
 
+    public LocalDateTime getUpdateTime() {
+        return dateTime.getUpdateAt() ;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return dateTime.getCreateAt() ;
+    }
+
     public void setDateTime(date dateTime) {
         this.dateTime = dateTime;
     }
@@ -139,5 +156,4 @@ public class book {
         this.downloadCount = downloadCount;
     }
 
-    
 }
