@@ -12,33 +12,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.books.books_springboot.entities.book;
-import com.books.books_springboot.models.dto.bookDto;
+import com.books.books_springboot.entities.Book;
+import com.books.books_springboot.models.dto.BookDto;
 import com.books.books_springboot.repositories.BooksRepositories;
 
 @Service
-public class bookServiceImpl implements bookService{
+public class BookServiceImpl implements BookService{
 
     private BooksRepositories booksRepositories;
+    private BookfuntionsService bookfuntionsService;
 
-    public bookServiceImpl(BooksRepositories booksRepositories){
+    public BookServiceImpl(BooksRepositories booksRepositories, BookfuntionsService bookfuntionsService){
 
         this.booksRepositories = booksRepositories;
-    }
-
-    //METHOD USED FOR RESPONSE IN INTERNAL SERVER ERRORS
-    private static ResponseEntity<Object> responseToServerError(Exception e){
-
-        return ResponseEntity.internalServerError().body(new HashMap<>().
-        put("Message", "Error: " + e));
-
-    }
-
-    private static ResponseEntity<Object> notFoundError(){
-
-        Map<String, String> responseBody = new HashMap<>();
-        responseBody.put("message", "The DB don't have registers of books");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+        this.bookfuntionsService = bookfuntionsService;
     }
 
 
@@ -48,20 +35,20 @@ public class bookServiceImpl implements bookService{
         
         try {
             
-            List<book> allBooks = (List<book>) booksRepositories.findAll();
+            List<Book> allBooks = (List<Book>) booksRepositories.findAll();
             
             if (allBooks.isEmpty()) {
         
-                return notFoundError();
+                return bookfuntionsService.notFoundError();
             
             }else{
 
                 ModelMapper modelMapper = new ModelMapper();
-                List<bookDto> bookDtos = new ArrayList<>();
+                List<BookDto> bookDtos = new ArrayList<>();
 
-                for (book book : allBooks) {
+                for (Book book : allBooks) {
                     
-                    bookDto bDto = modelMapper.map(book, bookDto.class);
+                    BookDto bDto = modelMapper.map(book, BookDto.class);
                     bookDtos.add(bDto);
                 }
 
@@ -70,7 +57,7 @@ public class bookServiceImpl implements bookService{
 
         } catch (Exception e) {
             
-            return responseToServerError(e);
+            return bookfuntionsService.generalError(e);
         }
     }
 
@@ -79,42 +66,44 @@ public class bookServiceImpl implements bookService{
     public ResponseEntity<?> getBookById(Long id) {
 
         try {
-            
-            Optional<book> bookDB = booksRepositories.findById(id);
+
+            Optional<Book> bookDB = booksRepositories.findById(id);
 
             if (bookDB.isPresent()) {
-                return ResponseEntity.ok(bookDB.get());
+                ModelMapper modelMapper = new ModelMapper();
+                BookDto bookDto = modelMapper.map(bookDB, BookDto.class);
+                
+                return ResponseEntity.ok(bookDto);
 
             } else {
 
                 Map<String, String> responseBody = new HashMap<>();
-                responseBody.put("message", "The DB don't have registers");
+                responseBody.put("message", "The ID: " + id + " is not present in DB");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody); 
             }
 
         } catch (Exception e) {
             
-            return responseToServerError(e);
+            return bookfuntionsService.generalError(e);
         }
     }
 
     @Override
     @Transactional
-    public ResponseEntity<?> createBook(book book) {
+    public ResponseEntity<?> createBook(Book book) {
 
         try {
             
             booksRepositories.save(book);
 
             ModelMapper modelMapper = new ModelMapper();
-            bookDto bookDto = modelMapper.map(book, bookDto.class);
+            BookDto bookDto = modelMapper.map(book, BookDto.class);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(bookDto);
             
         } catch (Exception e) {
             
-            System.out.println(e);
-            return responseToServerError(e);
+            return bookfuntionsService.generalError(e);
         }
     }
 
@@ -124,7 +113,7 @@ public class bookServiceImpl implements bookService{
 
         try {
             
-            Optional<book> bookDelete = booksRepositories.findById(id);
+            Optional<Book> bookDelete = booksRepositories.findById(id);
 
             bookDelete.ifPresent(b -> {
 
@@ -133,29 +122,43 @@ public class bookServiceImpl implements bookService{
 
             if (bookDelete.isPresent()) {
                 
-                return ResponseEntity.ok(bookDelete);
+                ModelMapper modelMapper = new ModelMapper();
+                BookDto bookDto = modelMapper.map(bookDelete, BookDto.class);
+                
+                return ResponseEntity.ok(bookDto);
             }
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         
         } catch (Exception e) {
           
-            return responseToServerError(e);
+            return bookfuntionsService.generalError(e);
         }
     }
 
     @Override
     @Transactional
-    public ResponseEntity<?> updateBook(book book) {
+    public ResponseEntity<?> updateBook(Long id, Book bookRequest) {
         
         try {
-            
-            Optional<book> bOptional = booksRepositories.findById(book.getId());
+        
+            bookRequest.setId(id);
+            Optional<Book> bOptional = booksRepositories.findById(bookRequest.getId());
+            Book bookUpdate = bOptional.orElseThrow();
 
             if (bOptional.isPresent()) {
+
+                bookUpdate.setAuthors(bookRequest.getAuthors());
+                bookUpdate.setCopyrigth(bookRequest.isCopyrigth());
+                bookUpdate.setDownloadCount(bookRequest.getDownloadCount());
+                bookUpdate.setGenres(bookRequest.getGenres());
+                bookUpdate.setImage(bookRequest.getImage());
+                bookUpdate.setLanguages(bookRequest.getLanguages());
+                bookUpdate.setTitle(bookRequest.getTitle());
+
                 
                 ModelMapper modelMapper = new ModelMapper();
-                bookDto bDto = modelMapper.map(bOptional, bookDto.class);
+                BookDto bDto = modelMapper.map(bookUpdate, BookDto.class);
 
                 return ResponseEntity.status(201).body(bDto);
             
@@ -167,7 +170,7 @@ public class bookServiceImpl implements bookService{
             
         } catch (Exception e) {
           
-            return responseToServerError(e);
+            return bookfuntionsService.generalError(e);
         }
     }
 

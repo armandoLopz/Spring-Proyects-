@@ -10,23 +10,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 
 @Entity
-public class genre {
+public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany
-    private Set<book>books;
+    private Set<Book>books;
 
     private String literaryGenre;
 
     private List<String> subGenres;
 
-    public genre() {
+    public Genre() {
     }
 
-    public genre(Long id, String literaryGenre, List<String> subGenres) {
+    public Genre(Long id, String literaryGenre, List<String> subGenres) {
         this.id = id;
         this.literaryGenre = literaryGenre;
         this.subGenres = subGenres;

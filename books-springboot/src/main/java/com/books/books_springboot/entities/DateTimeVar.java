@@ -8,7 +8,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 
 @Embeddable
-public class date {
+public class DateTimeVar {
 
     @Column(name = "create_at")
     private LocalDateTime createAt;
@@ -17,7 +17,7 @@ public class date {
     private LocalDateTime updateAt;
 
     
-    public date() {
+    public DateTimeVar() {
     }
     
     @PrePersist

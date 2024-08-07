@@ -2,17 +2,17 @@ package com.books.books_springboot.services;
 
 import org.springframework.http.ResponseEntity;
 
-import com.books.books_springboot.entities.book;
+import com.books.books_springboot.entities.Book;
 
-public interface bookService {
+public interface BookService {
 
     ResponseEntity<?> getAllBooks();
 
     ResponseEntity<?> getBookById(Long id);
     
-    ResponseEntity<?> createBook(book book);
+    ResponseEntity<?> createBook(Book book);
     
-    ResponseEntity<?> updateBook(book book);
+    ResponseEntity<?> updateBook(Long id, Book book);
 
     ResponseEntity<?> deleteBook(Long id);
 }

@@ -3,8 +3,8 @@ package com.books.books_springboot.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.books.books_springboot.entities.book;
-import com.books.books_springboot.services.bookServiceImpl;
+import com.books.books_springboot.entities.Book;
+import com.books.books_springboot.services.BookServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class booksController {
 
     @Autowired
-    private bookServiceImpl bookServiceImpl;
+    private BookServiceImpl bookServiceImpl;
 
     @GetMapping("")
     public ResponseEntity<?> getAllBooks() {
@@ -34,9 +35,15 @@ public class booksController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createBook(@RequestBody book book) {
+    public ResponseEntity<?> createBook(@RequestBody Book book) {
         
         return bookServiceImpl.createBook(book);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateBook(@PathVariable("id") Long id , @RequestBody Book book) {
+        
+        return bookServiceImpl.updateBook(id, book);
     }
 
     @DeleteMapping("/{id}")

@@ -2,26 +2,25 @@ package com.books.books_springboot.models.dto;
 
 import java.util.List;
 
-import com.books.books_springboot.entities.author;
-import com.books.books_springboot.entities.genre;
-import com.books.books_springboot.entities.language;
+import com.books.books_springboot.entities.Author;
+import com.books.books_springboot.entities.Genre;
 
-public class bookDto {
+public class BookDto {
 
     private Long id;
     private String title, image;
-    private List<author> authors;
-    private List<language> languages;
-    private List<genre> genres;
+    private List<Author> authors;
+    private List<String> languages;
+    private List<Genre> genres;
     private Long downloadCount;
     private boolean copyrigth;
     
     
-    public bookDto() {
+    public BookDto() {
     }
 
-    public bookDto(Long id, String title, String image, List<author> authors, List<language> languages,
-            List<genre> genres, Long downloadCount, boolean copyrigth) {
+    public BookDto(Long id, String title, String image, List<Author> authors, List<String> languages,
+            List<Genre> genres, Long downloadCount, boolean copyrigth) {
         this.id = id;
         this.title = title;
         this.image = image;
@@ -64,27 +63,27 @@ public class bookDto {
         this.image = image;
     }
 
-    public List<author> getAuthors() {
+    public List<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<author> authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
 
-    public List<language> getLanguages() {
+    public List<String> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<language> languages) {
+    public void setLanguages(List<String> languages) {
         this.languages = languages;
     }
 
-    public List<genre> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<genre> genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
 

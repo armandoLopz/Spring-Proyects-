@@ -8,6 +8,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,7 +20,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "books")
-public class book {
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +28,7 @@ public class book {
     
     private String title;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
 
         name = "books_authors",
@@ -35,13 +36,13 @@ public class book {
         inverseJoinColumns = @JoinColumn(name = "authors_id"),
         uniqueConstraints = @UniqueConstraint(columnNames = {"books_id", "authors_id"})
     )
-    private List<author> authors;
+    private List<Author> authors;
 
+    
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<language> languages;
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<genre> genres;
+    private List<Genre> genres;
+    
+    private List<String> languages;
 
     private Long downloadCount;
 
@@ -51,16 +52,16 @@ public class book {
     private String image;
 
     @Embedded
-    private date dateTime = new date();
+    private DateTimeVar dateTime = new DateTimeVar();
 
-    public book() {
+    public Book() {
 
-        this.authors = new ArrayList<author>();
-        this.languages = new ArrayList<language>();
-        this.genres = new ArrayList<genre>();
+        this.authors = new ArrayList<Author>();
+        this.languages = new ArrayList<String>();
+        this.genres = new ArrayList<Genre>();
     }
 
-    public book(String title, Long downloadCount, boolean copyrigth, String image) {
+    public Book(String title, Long downloadCount, boolean copyrigth, String image) {
 
         this();                
         this.title = title;
@@ -92,27 +93,27 @@ public class book {
         this.title = title;
     }
 
-    public List<author> getAuthors() {
+    public List<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<author> authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
 
-    public List<language> getLanguages() {
+    public List<String> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<language> languages) {
+    public void setLanguages(List<String> languages) {
         this.languages = languages;
     }
 
-    public List<genre> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<genre> genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
 
@@ -131,8 +132,8 @@ public class book {
     public void setImage(String image) {
         this.image = image;
     }
-
-    public date getDateTime() {
+    
+    public DateTimeVar getDateTime() {
         return dateTime;
     }
 
@@ -144,7 +145,7 @@ public class book {
         return dateTime.getCreateAt() ;
     }
 
-    public void setDateTime(date dateTime) {
+    public void setDateTime(DateTimeVar dateTime) {
         this.dateTime = dateTime;
     }
 

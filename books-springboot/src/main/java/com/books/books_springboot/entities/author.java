@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "authors")
-public class author {
+public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,18 +35,18 @@ public class author {
 
     @ManyToMany(mappedBy = "authors")
     //@JoinColumn(name = "books_id")
-    private List<book> books;
+    private List<Book> books;
 
     @Column(name = "image_url")
     private String image;
 
     @Embedded
-    private date dateTime = new date();
+    private DateTimeVar dateTime = new DateTimeVar();
 
-    public author() {
+    public Author() {
     }
 
-    public author(String name,String lastname, Date bornDate, Date deathDate, List<book> books, String image) {
+    public Author(String name,String lastname, Date bornDate, Date deathDate, List<Book> books, String image) {
 
         this.name = name;
         this.lastname = lastname;
@@ -94,11 +94,11 @@ public class author {
         this.deathDate = deathDate;
     }
 
-    public date getDateTime() {
+    public DateTimeVar getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(date dateTime) {
+    public void setDateTime(DateTimeVar dateTime) {
         this.dateTime = dateTime;
     }
     
