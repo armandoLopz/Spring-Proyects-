@@ -1,6 +1,5 @@
 package com.books.books_springboot.entities;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,14 +134,6 @@ public class Book {
     
     public DateTimeVar getDateTime() {
         return dateTime;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return dateTime.getUpdateAt() ;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return dateTime.getCreateAt() ;
     }
 
     public void setDateTime(DateTimeVar dateTime) {
