@@ -1,9 +1,7 @@
 package com.books.books_springboot.services.book;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -16,17 +14,18 @@ import org.springframework.validation.BindingResult;
 import com.books.books_springboot.entities.Book;
 import com.books.books_springboot.models.dto.BookDto;
 import com.books.books_springboot.repositories.BooksRepositories;
+import com.books.books_springboot.services.FuntionsErrorsService;
 
 @Service
 public class BookServiceImpl implements BookService{
 
     private BooksRepositories booksRepositories;
-    private BookfuntionsService bookfuntionsService;
+    private FuntionsErrorsService funtionsErrorsService;
 
-    public BookServiceImpl(BooksRepositories booksRepositories, BookfuntionsService bookfuntionsService){
+    public BookServiceImpl(BooksRepositories booksRepositories, FuntionsErrorsService funtionsErrorsService){
 
         this.booksRepositories = booksRepositories;
-        this.bookfuntionsService = bookfuntionsService;
+        this.funtionsErrorsService = funtionsErrorsService;
     }
 
 
@@ -40,25 +39,23 @@ public class BookServiceImpl implements BookService{
             
             if (allBooks.isEmpty()) {
         
-                return bookfuntionsService.notFoundError();
+                return funtionsErrorsService.notFoundErrorAllEntity("Books");
             
-            }else{
-
-                ModelMapper modelMapper = new ModelMapper();
-                List<BookDto> bookDtos = new ArrayList<>();
-
-                for (Book book : allBooks) {
-                    
-                    BookDto bDto = modelMapper.map(book, BookDto.class);
-                    bookDtos.add(bDto);
-                }
-
-                return ResponseEntity.ok(bookDtos);
             }
+            
+            ModelMapper modelMapper = new ModelMapper();
+            List<BookDto> bookDtos = new ArrayList<>();
+
+            allBooks.forEach(book -> {
+                BookDto bDto = modelMapper.map(book, BookDto.class);
+                bookDtos.add(bDto);
+            });
+
+            return ResponseEntity.ok(bookDtos);
 
         } catch (Exception e) {
             
-            return bookfuntionsService.generalError(e);
+            return funtionsErrorsService.generalError(e);
         }
     }
 
@@ -76,16 +73,13 @@ public class BookServiceImpl implements BookService{
                 
                 return ResponseEntity.ok(bookDto);
 
-            } else {
-
-                Map<String, String> responseBody = new HashMap<>();
-                responseBody.put("message", "The ID: " + id + " is not present in DB");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody); 
             }
+            
+            return funtionsErrorsService.notFoundErrorId(id);
 
         } catch (Exception e) {
             
-            return bookfuntionsService.generalError(e);
+            return funtionsErrorsService.generalError(e);
         }
     }
 
@@ -96,18 +90,19 @@ public class BookServiceImpl implements BookService{
         try {
             if (result.hasFieldErrors()) {
                 
-                return validationMessages(result);
+                return funtionsErrorsService.validationMessages(result);
             }
-            booksRepositories.save(book);
-
+            
             ModelMapper modelMapper = new ModelMapper();
             BookDto bookDto = modelMapper.map(book, BookDto.class);
+            
+            booksRepositories.save(book);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(bookDto);
             
         } catch (Exception e) {
             
-            return bookfuntionsService.generalError(e);
+            return funtionsErrorsService.generalError(e);
         }
     }
 
@@ -119,24 +114,21 @@ public class BookServiceImpl implements BookService{
             
             Optional<Book> bookDelete = booksRepositories.findById(id);
 
-            bookDelete.ifPresent(b -> {
-
-                booksRepositories.delete(b);
-            });
-
             if (bookDelete.isPresent()) {
                 
+                booksRepositories.delete(bookDelete.orElseThrow());
+
                 ModelMapper modelMapper = new ModelMapper();
                 BookDto bookDto = modelMapper.map(bookDelete, BookDto.class);
                 
                 return ResponseEntity.ok(bookDto);
             }
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return funtionsErrorsService.notFoundErrorId(id);
         
         } catch (Exception e) {
           
-            return bookfuntionsService.generalError(e);
+            return funtionsErrorsService.generalError(e);
         }
     }
 
@@ -148,7 +140,7 @@ public class BookServiceImpl implements BookService{
 
             if (result.hasFieldErrors()) {
                 
-                return validationMessages(result);
+                return funtionsErrorsService.validationMessages(result);
             }
         
             bookRequest.setId(id);
@@ -171,28 +163,14 @@ public class BookServiceImpl implements BookService{
 
                 return ResponseEntity.status(201).body(bDto);
             
-            }else{
-
-                return ResponseEntity.status(404).body(new HashMap<>().
-                put("Message", "Book is Not found in DB")); 
             }
+
+            return funtionsErrorsService.notFoundErrorId(id);
             
         } catch (Exception e) {
           
-            return bookfuntionsService.generalError(e);
+            return funtionsErrorsService.generalError(e);
         }
-    }
-
-    private ResponseEntity<?> validationMessages(BindingResult result){
-
-        Map<String, String> errors = new HashMap<>();
-
-        result.getFieldErrors().forEach(err -> {
-
-            errors.put(err.getField(), "El campo " + err.getField() + " " + err.getDefaultMessage());
-        });
-
-        return ResponseEntity.badRequest().body(errors);
     }
 
 

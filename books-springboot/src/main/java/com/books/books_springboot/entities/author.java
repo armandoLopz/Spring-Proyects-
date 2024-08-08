@@ -1,5 +1,6 @@
 package com.books.books_springboot.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,15 +57,19 @@ public class Author {
     private DateTimeVar dateTime = new DateTimeVar();
 
     public Author() {
+
+        this.books = new ArrayList<Book>();
+        
+        this.bornDate = new Date();
+        this.deathDate = new Date();
     }
 
-    public Author(String name,String lastname, Date bornDate, Date deathDate, List<Book> books, String image) {
+    public Author(String name,String lastname, String image) {
+
+        this();
 
         this.name = name;
         this.lastname = lastname;
-        this.bornDate = bornDate;
-        this.deathDate = deathDate;
-        this.books = books;
         this.image = image;
     }
 
@@ -113,5 +118,30 @@ public class Author {
     public void setDateTime(DateTimeVar dateTime) {
         this.dateTime = dateTime;
     }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
     
 }

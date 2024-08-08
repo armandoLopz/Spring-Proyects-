@@ -11,28 +11,28 @@ public class AuthorDto {
 
     private String name, lastname, image;
 
-    private Date bornDate, deatDate;
+    private Date bornDate, deathDate;
 
     private List<Book> books;
 
     public AuthorDto() {
     }
 
-    public AuthorDto(Long id, String name, String lastname, String image, Date bornDate, Date deatDate,
+    public AuthorDto(Long id, String name, String lastname, String image, Date bornDate, Date deathDate,
             List<Book> books) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.image = image;
         this.bornDate = bornDate;
-        this.deatDate = deatDate;
+        this.deathDate = deathDate;
         this.books = books;
     }
 
     @Override
     public String toString() {
         return "AuthorDto [id=" + id + ", name=" + name + ", lastname=" + lastname + ", image=" + image + ", bornDate="
-                + bornDate + ", deatDate=" + deatDate + "]";
+                + bornDate + ", deathDate=" + deathDate + "]";
     }
 
     public Long getId() {
@@ -75,12 +75,12 @@ public class AuthorDto {
         this.bornDate = bornDate;
     }
 
-    public Date getDeatDate() {
-        return deatDate;
+    public Date getDeathDate() {
+        return deathDate;
     }
 
-    public void setDeatDate(Date deatDate) {
-        this.deatDate = deatDate;
+    public void setDeathDate(Date deathDate) {
+        this.deathDate = deathDate;
     }
 
     public List<Book> getBooks() {

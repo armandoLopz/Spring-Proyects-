@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("api/book")
-public class booksController {
+public class bookController {
 
     @Autowired
     private BookServiceImpl bookServiceImpl;
