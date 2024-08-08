@@ -16,6 +16,10 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "books")
@@ -25,6 +29,8 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotBlank
+    @Size(min = 2, max = 35)
     private String title;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
@@ -37,16 +43,21 @@ public class Book {
     )
     private List<Author> authors;
 
-    
+    @NotNull
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Genre> genres;
-    
+
+    @NotNull
     private List<String> languages;
 
+    @NotNull
+    @Min(value = 0)
     private Long downloadCount;
 
     private boolean copyrigth;
 
+    @NotBlank
+    @Size(min = 5, max = 100)
     @Column(name = "image_url")
     private String image;
 

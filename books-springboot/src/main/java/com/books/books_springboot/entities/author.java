@@ -12,6 +12,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "authors")
@@ -21,22 +24,31 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(min = 3, max = 30)
     @Basic
     private String name;
 
+    @NotBlank
+    @Size(min = 3, max = 35)
     @Basic
     private String lastname;
     
+    @NotNull
     @Column(name = "born_date")
     private Date bornDate;
 
+    @NotNull
     @Column(name = "death_date")
     private Date deathDate;
 
+    @NotNull
     @ManyToMany(mappedBy = "authors")
     //@JoinColumn(name = "books_id")
     private List<Book> books;
 
+    @NotBlank
+    @Size(min = 5, max = 100)
     @Column(name = "image_url")
     private String image;
 
