@@ -1,4 +1,4 @@
-package com.books.books_springboot.services;
+package com.books.books_springboot.services.book;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 import com.books.books_springboot.entities.Book;
 import com.books.books_springboot.models.dto.BookDto;
@@ -90,10 +91,13 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional
-    public ResponseEntity<?> createBook(Book book) {
+    public ResponseEntity<?> createBook(Book book, BindingResult result) {
 
         try {
-            
+            if (result.hasFieldErrors()) {
+                
+                return validationMessages(result);
+            }
             booksRepositories.save(book);
 
             ModelMapper modelMapper = new ModelMapper();
@@ -138,9 +142,14 @@ public class BookServiceImpl implements BookService{
 
     @Override
     @Transactional
-    public ResponseEntity<?> updateBook(Long id, Book bookRequest) {
+    public ResponseEntity<?> updateBook(Long id, Book bookRequest, BindingResult result) {
         
         try {
+
+            if (result.hasFieldErrors()) {
+                
+                return validationMessages(result);
+            }
         
             bookRequest.setId(id);
             Optional<Book> bOptional = booksRepositories.findById(bookRequest.getId());
@@ -174,4 +183,29 @@ public class BookServiceImpl implements BookService{
         }
     }
 
+    private ResponseEntity<?> validationMessages(BindingResult result){
+
+        Map<String, String> errors = new HashMap<>();
+
+        result.getFieldErrors().forEach(err -> {
+
+            errors.put(err.getField(), "El campo " + err.getField() + " " + err.getDefaultMessage());
+        });
+
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+
+    @Override
+    public ResponseEntity<?> addGenreInBook(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addGenreInBook'");
+    }
+
+
+    @Override
+    public ResponseEntity<?> addAuthorInBook(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addAuthorInBook'");
+    }
 }

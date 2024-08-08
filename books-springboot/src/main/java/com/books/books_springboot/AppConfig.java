@@ -16,7 +16,7 @@ public class AppConfig {
         return new OpenAPI()
                 .info(new Info()
                 .title("Bookshelf API (2024)")
-                .version("0.1")
+                .version("1.0")
                 .description("APIs relacionadas con el mundo de los libros, autores y géneros literarios." + 
                 " El objetivo del proyecto fue facilitar el acceso a información relevante sobre obras literarias,"+ 
                 " sus creadores y las diversas categorías literarias.")
