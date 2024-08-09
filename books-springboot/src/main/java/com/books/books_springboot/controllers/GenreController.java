@@ -4,7 +4,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.books.books_springboot.entities.Genre;
+import com.books.books_springboot.services.genre.GenreServiceImpl;
 
+import jakarta.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,31 +21,39 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/api/genre")
 public class GenreController {
 
+    private GenreServiceImpl genreServiceImpl;
+    public GenreController(GenreServiceImpl genreServiceImpl){
+
+        this.genreServiceImpl = genreServiceImpl;
+    }
+
     @GetMapping("")
-    public String getAllGenre() {
-        return "All books";
+    public ResponseEntity<?> getAllGenre() {
+        
+        return genreServiceImpl.getAllGenre();
     }
 
     @GetMapping("/{id}")
-    public String getGenreById(@PathVariable("id") Long id) {
-        return new String();
+    public ResponseEntity<?> getGenreById(@PathVariable("id") Long id) {
+        
+        return genreServiceImpl.getGenreById(id);
     }
     
     @PostMapping("/create")
-    public String postMethodName(@RequestBody Genre genre) {
-        //TODO: process POST request
+    public ResponseEntity<?> postMethodName(@Valid @RequestBody Genre genre, BindingResult result) {
         
-        return "Work";
+        return genreServiceImpl.createGenre(genre, result);
     }
 
     @PutMapping("/{id}")
-    public String putMethodName(@PathVariable("id") Long id, @RequestBody Genre genre) {
+    public ResponseEntity<?> putMethodName(@Valid @PathVariable("id") Long id, @RequestBody Genre genre, BindingResult result) {
         
-        return "";
+        return genreServiceImpl.updateGenre(id, genre, result);
     }
 
     @DeleteMapping("/{id}")
-    public String requestMethodName(@PathVariable("id") Long id) {
-        return "Works";
+    public ResponseEntity<?> requestMethodName(@PathVariable("id") Long id) {
+        
+        return genreServiceImpl.deleteGenre(id);
     }
 }
