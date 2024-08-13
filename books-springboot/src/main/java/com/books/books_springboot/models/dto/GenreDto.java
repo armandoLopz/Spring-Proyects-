@@ -3,11 +3,13 @@ package com.books.books_springboot.models.dto;
 import java.util.Set;
 
 import com.books.books_springboot.entities.Book;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class GenreDto {
 
     private Long id;
 
+    @JsonIgnoreProperties(value = "genres")
     private Set<Book> books;
 
     private String literaryGenre;

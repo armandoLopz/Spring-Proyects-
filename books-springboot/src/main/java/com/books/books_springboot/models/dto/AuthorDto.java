@@ -1,9 +1,10 @@
 package com.books.books_springboot.models.dto;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import com.books.books_springboot.entities.Book;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class AuthorDto {
 
@@ -13,13 +14,14 @@ public class AuthorDto {
 
     private Date bornDate, deathDate;
 
-    private List<Book> books;
+    @JsonIgnoreProperties(value = "authors")
+    private Set<Book> books;
 
     public AuthorDto() {
     }
 
     public AuthorDto(Long id, String name, String lastname, String image, Date bornDate, Date deathDate,
-            List<Book> books) {
+            Set<Book> books) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -83,11 +85,11 @@ public class AuthorDto {
         this.deathDate = deathDate;
     }
 
-    public List<Book> getBooks() {
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
 

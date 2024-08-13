@@ -1,18 +1,24 @@
 package com.books.books_springboot.models.dto;
 
-import java.util.List;
+import java.util.Set;
 
-import com.books.books_springboot.entities.Author;
-import com.books.books_springboot.entities.Genre;
 import com.books.books_springboot.entities.Languages;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class BookDto {
 
     private Long id;
     private String title, image;
-    private List<Author> authors;
-    private List<Languages> languages;
-    private List<Genre> genres;
+
+    @JsonIgnoreProperties(value = "books")
+    private Set<AuthorDto> authors;
+    
+    @JsonIgnoreProperties(value = "books")
+    private Set<Languages> languages;
+
+    @JsonIgnoreProperties(value = "books")
+    private Set<GenreDto> genres;
+
     private Long downloadCount;
     private boolean copyrigth;
     
@@ -20,8 +26,8 @@ public class BookDto {
     public BookDto() {
     }
 
-    public BookDto(Long id, String title, String image, List<Author> authors, List<Languages> languages,
-            List<Genre> genres, Long downloadCount, boolean copyrigth) {
+    public BookDto(Long id, String title, String image, Set<AuthorDto> authors, Set<Languages> languages,
+            Set<GenreDto> genres, Long downloadCount, boolean copyrigth) {
         this.id = id;
         this.title = title;
         this.image = image;
@@ -64,27 +70,27 @@ public class BookDto {
         this.image = image;
     }
 
-    public List<Author> getAuthors() {
+    public Set<AuthorDto> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(Set<AuthorDto> authors) {
         this.authors = authors;
     }
 
-    public List<Languages> getLanguages() {
+    public Set<Languages> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<Languages> languages) {
+    public void setLanguages(Set<Languages> languages) {
         this.languages = languages;
     }
 
-    public List<Genre> getGenres() {
+    public Set<GenreDto> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(Set<GenreDto> genres) {
         this.genres = genres;
     }
 

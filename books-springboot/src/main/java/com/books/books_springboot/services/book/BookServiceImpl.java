@@ -48,6 +48,7 @@ public class BookServiceImpl implements BookService{
 
             allBooks.forEach(book -> {
                 BookDto bDto = modelMapper.map(book, BookDto.class);
+            
                 bookDtos.add(bDto);
             });
 
@@ -93,10 +94,10 @@ public class BookServiceImpl implements BookService{
                 return funtionsErrorsService.validationMessages(result);
             }
             
+            booksRepositories.save(book);
+            
             ModelMapper modelMapper = new ModelMapper();
             BookDto bookDto = modelMapper.map(book, BookDto.class);
-            
-            booksRepositories.save(book);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(bookDto);
             

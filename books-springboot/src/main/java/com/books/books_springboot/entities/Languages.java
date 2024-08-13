@@ -1,10 +1,16 @@
 package com.books.books_springboot.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
@@ -14,6 +20,7 @@ import jakarta.validation.constraints.NotNull;
 public class Languages {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
@@ -21,12 +28,14 @@ public class Languages {
     private String name;
 
     @NotNull
-    @ManyToMany
-    private List<Book> books;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    //@JsonIgnoreProperties(value = "languages")
+    @JsonIgnore
+    private Set<Book> books;
     
     public Languages() {
 
-        this.books = new ArrayList<>();
+        this.books = new HashSet<>();
 
     }
 
@@ -52,11 +61,11 @@ public class Languages {
         this.name = name;
     }
 
-    public List<Book> getBooks() {
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
 

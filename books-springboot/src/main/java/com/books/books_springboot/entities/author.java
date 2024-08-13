@@ -1,8 +1,8 @@
 package com.books.books_springboot.entities;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -46,7 +46,7 @@ public class Author {
     @NotNull
     @ManyToMany(mappedBy = "authors")
     //@JoinColumn(name = "books_id")
-    private List<Book> books;
+    private Set<Book> books;
 
     @NotBlank
     @Size(min = 5, max = 100)
@@ -58,7 +58,7 @@ public class Author {
 
     public Author() {
 
-        this.books = new ArrayList<Book>();
+        this.books = new HashSet<Book>();
         
         this.bornDate = new Date();
         this.deathDate = new Date();
@@ -75,8 +75,8 @@ public class Author {
 
     
 
-    public Author(@NotBlank @Size(min = 3, max = 30) String name,
-            @NotBlank @Size(min = 3, max = 35) String lastname, @NotNull List<Book> books,
+    /*public Author(@NotBlank @Size(min = 3, max = 30) String name,
+            @NotBlank @Size(min = 3, max = 35) String lastname,
             @NotBlank @Size(min = 5, max = 100) String image) {
 
         this.name = name;
@@ -87,7 +87,7 @@ public class Author {
         //Campos no pasados en el constructor
         this.bornDate = new Date();
         this.deathDate = new Date();
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -143,11 +143,11 @@ public class Author {
         this.lastname = lastname;
     }
 
-    public List<Book> getBooks() {
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
 

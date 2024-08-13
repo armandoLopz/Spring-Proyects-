@@ -3,6 +3,8 @@ package com.books.books_springboot.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -24,6 +26,7 @@ public class Genre {
     @ManyToMany
     @NotNull
     @Column(unique = true)
+    @JsonIgnore
     private Set<Book>books;
 
     @NotBlank

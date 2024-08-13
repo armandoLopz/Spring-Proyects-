@@ -1,7 +1,6 @@
 package com.books.books_springboot.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Min;
@@ -41,14 +42,15 @@ public class Book {
         inverseJoinColumns = @JoinColumn(name = "authors_id"),
         uniqueConstraints = @UniqueConstraint(columnNames = {"books_id", "authors_id"})
     )
-    private List<Author> authors;
+    private Set<Author> authors;
 
     @NotNull
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Genre> genres;
+    private Set<Genre> genres;
 
-    @ManyToMany
-    private List<Languages> languages;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @NotNull
+    private Set<Languages> languages;
 
     @NotNull
     @Min(value = 0)
@@ -64,24 +66,46 @@ public class Book {
     @Embedded
     private DateTimeVar dateTime = new DateTimeVar();
 
-    public Book() {
+    @PrePersist
+    public void PrePersistLanguages(){
 
-        //this.authors = new ArrayList<Author>();
-        this.languages = new ArrayList<Languages>();
-        this.genres = new ArrayList<Genre>();
+        languages.forEach(language -> language.getBooks().add(this));
+        genres.forEach(genre -> genre.getBooks().add(this));
+        authors.forEach(author -> author.getBooks().add(this));
     }
 
-    public Book(String title, Long downloadCount, boolean copyrigth, String image) {
+    @PreRemove
+    public void beforeRemove() {
 
-        this();                
+        authors.forEach(auth -> auth.getBooks().remove(this));
+        
+        languages.forEach(lang -> lang.getBooks().remove(this));
+
+        genres.forEach(genre -> genre.getBooks().remove(this));
+        
+    }
+
+    public Book() {
+
+        //this.authors = new HashSet<Author>();
+        //this.languages = new ArraySet<Languages>();
+        //this.genres = new ArraySet<Genre>();
+    }
+
+    public Book(String title, Long downloadCount, boolean copyrigth, String image, 
+                Set<Languages> languages, Set<Genre> genres, Set<Author> authors) {
+
+        //this();                
         this.title = title;
         this.downloadCount = downloadCount;
         this.copyrigth = copyrigth;
         this.image = image;
+
+        this.languages = languages;
+        this.genres = genres;
+        this.authors = authors;
     }
 
-    
-    
     @Override
     public String toString() {
         return "book [id=" + id + ", title=" + title + ", authors=" + authors + ", languages=" + languages + ", genres="
@@ -105,27 +129,27 @@ public class Book {
         this.title = title;
     }
 
-    public List<Author> getAuthors() {
+    public Set<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(Set<Author> authors) {
         this.authors = authors;
     }
 
-    public List<Languages> getLanguages() {
+    public Set<Languages> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<Languages> languages) {
+    public void setLanguages(Set<Languages> languages) {
         this.languages = languages;
     }
 
-    public List<Genre> getGenres() {
+    public Set<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(Set<Genre> genres) {
         this.genres = genres;
     }
 
