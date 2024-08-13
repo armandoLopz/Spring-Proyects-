@@ -98,7 +98,7 @@ public class GenreServiceImpl implements GenreService{
             GenreDto genreDto = modelMapper.map(genre, GenreDto.class);
 
             genresRepositories.save(genre);
-            
+            genreDto.setId(genre.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(genreDto);
 
         } catch (Exception e) {
@@ -125,9 +125,9 @@ public class GenreServiceImpl implements GenreService{
 
                 Genre genreUpdate = genreDB.orElseThrow();
 
+                genreUpdate.setId(genreRequest.getId());
                 genreUpdate.setBooks(genreRequest.getBooks());
                 genreUpdate.setLiteraryGenre(genreRequest.getLiteraryGenre());
-                genreUpdate.setSubGenres(genreRequest.getSubGenres());
 
                 ModelMapper modelMapper = new ModelMapper();
                 GenreDto genreDto = modelMapper.map(genreUpdate, GenreDto.class);

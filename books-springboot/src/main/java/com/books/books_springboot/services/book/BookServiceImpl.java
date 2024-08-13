@@ -149,6 +149,7 @@ public class BookServiceImpl implements BookService{
             if (bOptional.isPresent()) {
                 Book bookUpdate = bOptional.orElseThrow();
                 
+                bookUpdate.setId(bookRequest.getId());
                 bookUpdate.setAuthors(bookRequest.getAuthors());
                 bookUpdate.setCopyrigth(bookRequest.isCopyrigth());
                 bookUpdate.setDownloadCount(bookRequest.getDownloadCount());

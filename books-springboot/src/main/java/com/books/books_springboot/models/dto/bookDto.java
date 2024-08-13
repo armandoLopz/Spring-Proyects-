@@ -4,13 +4,14 @@ import java.util.List;
 
 import com.books.books_springboot.entities.Author;
 import com.books.books_springboot.entities.Genre;
+import com.books.books_springboot.entities.Languages;
 
 public class BookDto {
 
     private Long id;
     private String title, image;
     private List<Author> authors;
-    private List<String> languages;
+    private List<Languages> languages;
     private List<Genre> genres;
     private Long downloadCount;
     private boolean copyrigth;
@@ -19,7 +20,7 @@ public class BookDto {
     public BookDto() {
     }
 
-    public BookDto(Long id, String title, String image, List<Author> authors, List<String> languages,
+    public BookDto(Long id, String title, String image, List<Author> authors, List<Languages> languages,
             List<Genre> genres, Long downloadCount, boolean copyrigth) {
         this.id = id;
         this.title = title;
@@ -71,11 +72,11 @@ public class BookDto {
         this.authors = authors;
     }
 
-    public List<String> getLanguages() {
+    public List<Languages> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<String> languages) {
+    public void setLanguages(List<Languages> languages) {
         this.languages = languages;
     }
 
@@ -102,7 +103,4 @@ public class BookDto {
     public void setCopyrigth(boolean copyrigth) {
         this.copyrigth = copyrigth;
     }
-
-    
-
 }

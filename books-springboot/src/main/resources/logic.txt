@@ -1,3 +1,5 @@
 TO DO:
 
+Add Table for language, subgenres
+
 Create objects with relationships, see how update and add

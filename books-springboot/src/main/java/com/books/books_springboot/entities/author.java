@@ -73,6 +73,22 @@ public class Author {
         this.image = image;
     }
 
+    
+
+    public Author(@NotBlank @Size(min = 3, max = 30) String name,
+            @NotBlank @Size(min = 3, max = 35) String lastname, @NotNull List<Book> books,
+            @NotBlank @Size(min = 5, max = 100) String image) {
+
+        this.name = name;
+        this.lastname = lastname;
+        this.books = books;
+        this.image = "URL";
+        
+        //Campos no pasados en el constructor
+        this.bornDate = new Date();
+        this.deathDate = new Date();
+    }
+
     @Override
     public String toString() {
         return "author [id=" + id + ", name=" + name + ", bornDate=" + bornDate + ", deathDate=" + deathDate

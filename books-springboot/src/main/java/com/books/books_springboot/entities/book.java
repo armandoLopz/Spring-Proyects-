@@ -47,8 +47,8 @@ public class Book {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Genre> genres;
 
-    @NotNull
-    private List<String> languages;
+    @ManyToMany
+    private List<Languages> languages;
 
     @NotNull
     @Min(value = 0)
@@ -66,8 +66,8 @@ public class Book {
 
     public Book() {
 
-        this.authors = new ArrayList<Author>();
-        this.languages = new ArrayList<String>();
+        //this.authors = new ArrayList<Author>();
+        this.languages = new ArrayList<Languages>();
         this.genres = new ArrayList<Genre>();
     }
 
@@ -79,6 +79,8 @@ public class Book {
         this.copyrigth = copyrigth;
         this.image = image;
     }
+
+    
     
     @Override
     public String toString() {
@@ -111,11 +113,11 @@ public class Book {
         this.authors = authors;
     }
 
-    public List<String> getLanguages() {
+    public List<Languages> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<String> languages) {
+    public void setLanguages(List<Languages> languages) {
         this.languages = languages;
     }
 

@@ -1,10 +1,9 @@
 package com.books.books_springboot.entities;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,14 +23,12 @@ public class Genre {
 
     @ManyToMany
     @NotNull
+    @Column(unique = true)
     private Set<Book>books;
 
     @NotBlank
     @Size(min = 1, max = 50)
     private String literaryGenre;
-
-    @NotNull
-    private List<String> subGenres;
 
     @Embedded
     private DateTimeVar dateTime = new DateTimeVar();
@@ -39,8 +36,6 @@ public class Genre {
     public Genre() {
         
         this.books = new HashSet<Book>();
-        this.subGenres = new ArrayList<String>();
-    
     }
 
     public Genre(Long id, String literaryGenre, DateTimeVar dateTime) {
@@ -80,14 +75,6 @@ public class Genre {
 
     public void setLiteraryGenre(String literaryGenre) {
         this.literaryGenre = literaryGenre;
-    }
-
-    public List<String> getSubGenres() {
-        return subGenres;
-    }
-
-    public void setSubGenres(List<String> subGenres) {
-        this.subGenres = subGenres;
     }
     
 }
