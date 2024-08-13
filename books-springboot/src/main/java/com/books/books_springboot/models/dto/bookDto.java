@@ -2,7 +2,7 @@ package com.books.books_springboot.models.dto;
 
 import java.util.Set;
 
-import com.books.books_springboot.entities.Languages;
+import com.books.books_springboot.entities.Language;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class BookDto {
@@ -14,7 +14,7 @@ public class BookDto {
     private Set<AuthorDto> authors;
     
     @JsonIgnoreProperties(value = "books")
-    private Set<Languages> languages;
+    private Set<Language> languages;
 
     @JsonIgnoreProperties(value = "books")
     private Set<GenreDto> genres;
@@ -26,7 +26,7 @@ public class BookDto {
     public BookDto() {
     }
 
-    public BookDto(Long id, String title, String image, Set<AuthorDto> authors, Set<Languages> languages,
+    public BookDto(Long id, String title, String image, Set<AuthorDto> authors, Set<Language> languages,
             Set<GenreDto> genres, Long downloadCount, boolean copyrigth) {
         this.id = id;
         this.title = title;
@@ -78,11 +78,11 @@ public class BookDto {
         this.authors = authors;
     }
 
-    public Set<Languages> getLanguages() {
+    public Set<Language> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(Set<Languages> languages) {
+    public void setLanguages(Set<Language> languages) {
         this.languages = languages;
     }
 

@@ -6,7 +6,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,7 +33,7 @@ public class Book {
     @Size(min = 2, max = 35)
     private String title;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
 
         name = "books_authors",
@@ -50,7 +49,7 @@ public class Book {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @NotNull
-    private Set<Languages> languages;
+    private Set<Language> languages;
 
     @NotNull
     @Min(value = 0)
@@ -93,7 +92,7 @@ public class Book {
     }
 
     public Book(String title, Long downloadCount, boolean copyrigth, String image, 
-                Set<Languages> languages, Set<Genre> genres, Set<Author> authors) {
+                Set<Language> languages, Set<Genre> genres, Set<Author> authors) {
 
         //this();                
         this.title = title;
@@ -137,11 +136,11 @@ public class Book {
         this.authors = authors;
     }
 
-    public Set<Languages> getLanguages() {
+    public Set<Language> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(Set<Languages> languages) {
+    public void setLanguages(Set<Language> languages) {
         this.languages = languages;
     }
 

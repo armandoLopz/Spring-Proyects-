@@ -2,7 +2,6 @@ package com.books.books_springboot.models.dto;
 
 import java.util.Set;
 
-import com.books.books_springboot.entities.Book;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class GenreDto {
@@ -10,14 +9,14 @@ public class GenreDto {
     private Long id;
 
     @JsonIgnoreProperties(value = "genres")
-    private Set<Book> books;
+    private Set<BookDto> books;
 
     private String literaryGenre;
     
     public GenreDto() {
     }
     
-    public GenreDto(Long id, Set<Book> books, String literaryGenre) {
+    public GenreDto(Long id, Set<BookDto> books, String literaryGenre) {
         
         this.id = id;
         this.books = books;
@@ -32,11 +31,11 @@ public class GenreDto {
         this.id = id;
     }
 
-    public Set<Book> getBooks() {
+    public Set<BookDto> getBooks() {
         return books;
     }
 
-    public void setBooks(Set<Book> books) {
+    public void setBooks(Set<BookDto> books) {
         this.books = books;
     }
 
