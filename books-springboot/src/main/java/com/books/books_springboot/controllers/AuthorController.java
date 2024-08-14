@@ -4,9 +4,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.books.books_springboot.entities.Author;
+import com.books.books_springboot.models.dto.AuthorDto;
 import com.books.books_springboot.services.author.AuthorServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -47,7 +50,14 @@ public class AuthorController {
             @ApiResponse(
                 
                 responseCode = "200",
-                description = "All authors were successfully obtained"
+                description = "All authors were successfully obtained",
+                
+                content = @Content(
+
+                mediaType = "application/json",
+                schema = @Schema(implementation = AuthorDto.class)
+
+                )
             ),
             @ApiResponse(
 
@@ -71,17 +81,18 @@ public class AuthorController {
     @Operation(
 
         summary = "Get author by id",
-        requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-
-            description = "Get author Request with the author ID",
-            required = true
-        ),
         responses = {
 
             @ApiResponse(
                 
                 responseCode = "200",
-                description = "The author successfully obtained"
+                description = "The author successfully obtained",
+                content = @Content(
+
+                mediaType = "application/json",
+                schema = @Schema(implementation = AuthorDto.class)
+
+                )
             ),
             @ApiResponse(
 
@@ -108,14 +119,26 @@ public class AuthorController {
         requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
 
             description = "Update author Request with the author ID and attributes of author",
-            required = true
+            required = true,
+            content = @Content(
+
+                mediaType = "application/json",
+                schema = @Schema(implementation = AuthorDto.class)
+
+                )
         ),
         responses = {
 
             @ApiResponse(
                 
                 responseCode = "201",
-                description = "The author successfully updated"
+                description = "The author successfully updated",
+                content = @Content(
+
+                mediaType = "application/json",
+                schema = @Schema(implementation = AuthorDto.class)
+
+                )
             ),
             @ApiResponse(
 
@@ -146,10 +169,15 @@ public class AuthorController {
     @Operation(
 
         summary = "Create author",
-        requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+         requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
 
-            description = "Create author Request the author attributes",
-            required = true
+            description = "Get author Request with the author ID",
+            content = @Content(
+
+                mediaType = "application/json",
+                schema = @Schema(implementation = Author.class)
+
+            )
         ),
         responses = {
 

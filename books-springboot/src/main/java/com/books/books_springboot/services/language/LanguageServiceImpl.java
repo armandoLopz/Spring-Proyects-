@@ -14,12 +14,12 @@ import com.books.books_springboot.repositories.LanguageRepositories;
 import com.books.books_springboot.services.FuntionsErrorsService;
 
 @Service
-public class LanguageImpl implements LanguageService{
+public class LanguageServiceImpl implements LanguageService{
 
     private LanguageRepositories languageRepositories;
     private FuntionsErrorsService funtionsErrorsService;
     
-    public LanguageImpl(LanguageRepositories languageRepositories, FuntionsErrorsService funtionsErrorsService){
+    public LanguageServiceImpl(LanguageRepositories languageRepositories, FuntionsErrorsService funtionsErrorsService){
 
         this.languageRepositories = languageRepositories;
         this.funtionsErrorsService = funtionsErrorsService;
