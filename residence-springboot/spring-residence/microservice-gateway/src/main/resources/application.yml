@@ -1,0 +1,15 @@
+server:
+ port: 8080
+
+spring:
+  application:
+   name: mvsc-gateway
+   
+  cloud:
+    gateway:
+     discovery:
+      locator:
+       enabled: true
+     routes:
+      - id: students
+        uri: http//localhost:8090
