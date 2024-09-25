@@ -42,7 +42,7 @@ public class UsersEntity {
     @OneToMany
     private Set<RoleEntity> role;
 
-    //Atributtes required for spring security 
+    //Attributes required for spring security 
 
     @Column(name = "is_enabled")
     private boolean isEnabled;

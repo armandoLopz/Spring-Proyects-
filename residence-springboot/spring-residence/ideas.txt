@@ -1,0 +1,1 @@
+Possible solution for save a lot data to a register is use a union table (apartment_id // user_id)

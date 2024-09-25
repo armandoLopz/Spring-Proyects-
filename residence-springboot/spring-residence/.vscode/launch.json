@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MicroserviceResidentsApplication",
+            "request": "launch",
+            "mainClass": "MicroserviceResidentsApplication",
+            "projectName": "spring-residence"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-MicroserviceUsersApplication<microservice-users>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -29,6 +36,26 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.microservice.config.microservice_config.MicroserviceConfigApplication",
             "projectName": "microservice-config",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroserviceResidentsApplication<microservice-residents>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.microservice.residents.microservice_residents.MicroserviceResidentsApplication",
+            "projectName": "microservice-residents",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroserviceApartmentsApplication<microservice-apartments>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.microservice.apartments.microservice_apartments.MicroserviceApartmentsApplication",
+            "projectName": "microservice-apartments",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
